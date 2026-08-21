@@ -1,0 +1,182 @@
+---
+import { FAQS } from "../../../data/human-design.constants.ts";
+
+const { eyebrow = "Questions", title = "Before you book", eyebrowEdit = {}, titleEdit = {} } = Astro.props;
+---
+
+<section id="faq" class="faq-section" data-faq-section>
+  <div class="faq-grid">
+    <span class="section-number">06</span>
+    <div class="faq-title-wrap">
+      <p class="section-eyebrow" {...eyebrowEdit}>{eyebrow}</p>
+      <h2 class="section-heading" {...titleEdit}>{title}</h2>
+    </div>
+
+    <div class="faq-accordion-wrap">
+      {FAQS.map((f, i) => (
+        <div class="faq-item" data-faq-item={i}>
+          <button
+            type="button"
+            class="faq-trigger"
+            data-faq-trigger={i}
+            aria-expanded={i === 0 ? "true" : "false"}
+          >
+            <span class="faq-question">{f.question}</span>
+            <span class="faq-icon">{i === 0 ? "−" : "+"}</span>
+          </button>
+          <div
+            class="faq-answer-panel"
+            data-faq-panel={i}
+            style={i === 0 ? "display: block;" : "display: none;"}
+          >
+            <p class="faq-answer">{f.answer}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const triggers = document.querySelectorAll("[data-faq-trigger]");
+
+    triggers.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = btn.getAttribute("data-faq-trigger");
+        const panel = document.querySelector(`[data-faq-panel="${idx}"]`);
+        const icon = btn.querySelector(".faq-icon");
+
+        const isOpen = panel && panel.style.display === "block";
+
+        if (isOpen) {
+          if (panel) panel.style.display = "none";
+          if (icon) icon.textContent = "+";
+          btn.setAttribute("aria-expanded", "false");
+        } else {
+          if (panel) panel.style.display = "block";
+          if (icon) icon.textContent = "−";
+          btn.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+  })();
+</script>
+
+<style>
+  .faq-section {
+    padding: 104px 32px 96px;
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .section-number {
+    grid-column: 1 / span 2;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 96px;
+    line-height: 0.72;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px #0B3D2E;
+  }
+
+  .faq-title-wrap {
+    grid-column: 3 / span 3;
+    padding-top: 6px;
+  }
+
+  .section-eyebrow {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #5C2B2E;
+    margin: 0 0 12px;
+  }
+
+  .section-heading {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 3.2vw, 42px);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    margin: 0;
+  }
+
+  .faq-accordion-wrap {
+    grid-column: 7 / span 6;
+    border-top: 1.5px solid #FBFBF9;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(74, 62, 54, 0.2);
+  }
+
+  .faq-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 22px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.15s ease;
+  }
+
+  .faq-trigger:hover .faq-question {
+    color: #0B3D2E;
+  }
+
+  .faq-question {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.22;
+    letter-spacing: -0.04em;
+    color: var(--color-ink);
+  }
+
+  .faq-icon {
+    font-size: 22px;
+    font-weight: 400;
+    color: #5C2B2E;
+    flex: none;
+  }
+
+  .faq-answer {
+    font-size: 16.5px;
+    line-height: 1.6;
+    color: #6E6157;
+    margin: 0 0 24px;
+    max-width: 62ch;
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 900px) {
+    .faq-grid {
+      grid-template-columns: 1fr;
+    }
+    .section-number, .faq-title-wrap, .faq-accordion-wrap {
+      grid-column: span 1;
+    }
+  }
+
+  /* Reading Almanac theme */
+  .faq-section { background: #FBFBF9; color: #17191A; }
+  .section-number { -webkit-text-stroke-color: #0B3D2E; }
+  .faq-accordion-wrap { border-top-color: #D8D7D0; }
+  .faq-item { border-bottom-color: #E8E7E1; }
+  .faq-question { color: #17191A; }
+  .faq-trigger:hover .faq-question { color: #0B3D2E; }
+  .faq-answer { color: #8B8E86; }
+  .faq-icon { color: #0B3D2E; }
+</style>

@@ -1,0 +1,200 @@
+---
+interface Props {
+  dateline?: string;
+  body?: string;
+  kickerEdit?: Record<string, string>;
+  titleEdit?: Record<string, string>;
+  bodyEdit?: Record<string, string>;
+  subtext?: string;
+  subtextEdit?: Record<string, string>;
+  sideNote?: string;
+  sideNoteEdit?: Record<string, string>;
+}
+
+const {
+  dateline = "Charts read by hand · one at a time",
+  body = "A map of how you are built to decide, drawn from your birth date, time and place. Nothing here forecasts events.",
+  kickerEdit = {},
+  titleEdit = {},
+  bodyEdit = {},
+  subtext = "Coloured centres are consistent in you. Open ones are where you absorb everyone else. Start with the free chart, decide about a reading after.",
+  subtextEdit = {},
+  sideNote = "Every chart on this page is drawn and read by one person, in plain language, and the recording stays yours.",
+  sideNoteEdit = {},
+} = Astro.props;
+---
+
+<section class="home-hero" data-home-hero>
+  <div class="hero-grid">
+    <div class="hero-col-main">
+      <p class="hero-dateline" data-hero-dateline {...kickerEdit}>{dateline}</p>
+      <h1 class="hero-title" data-hero-title {...titleEdit}>
+        Your chart already knows how you were built to decide.
+      </h1>
+      <p class="lead-text" {...bodyEdit}>{body}</p>
+      <p class="sub-text" {...subtextEdit}>{subtext}</p>
+      <div class="hero-actions">
+        <a class="hero-primary" href="#chart">Generate your chart <span aria-hidden="true">↗</span></a>
+        <a class="hero-secondary" href="#foundations">How Human Design works</a>
+      </div>
+      <p class="side-note" {...sideNoteEdit}>{sideNote}</p>
+    </div>
+    <div class="hero-generator">
+      <slot name="generator" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-hero {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--color-subtle-border);
+  }
+
+  .hero-dateline {
+    margin: 0 0 30px;
+    color: var(--color-muted);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    max-width: 17ch;
+    margin: 0 0 28px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(46px, 5vw, 68px);
+    line-height: 1.05;
+    letter-spacing: -.025em;
+    text-wrap: pretty;
+  }
+
+  .hero-grid {
+    max-width: 1180px;
+    min-height: calc(100svh - 72px);
+    margin: 0 auto;
+    padding: clamp(64px, 9vw, 104px) 32px 84px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(340px, .92fr);
+    gap: clamp(48px, 6vw, 76px);
+    align-items: start;
+  }
+
+  .hero-col-main {
+    min-width: 0;
+  }
+
+  .lead-text {
+    max-width: 43ch;
+    font-size: 18px;
+    line-height: 1.62;
+    margin: 0 0 16px;
+    text-wrap: pretty;
+  }
+
+  .sub-text {
+    max-width: 47ch;
+    font-size: 15px;
+    line-height: 1.72;
+    color: var(--color-text-dark);
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  .side-note {
+    max-width: 45ch;
+    padding-top: 18px;
+    border-top: 1px solid var(--color-subtle-border);
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--color-muted);
+    margin: 34px 0 0;
+    text-wrap: pretty;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+    margin-top: 30px;
+  }
+
+  .hero-primary,
+  .hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .hero-primary {
+    gap: 12px;
+    padding: 0 19px;
+    background: var(--color-ink);
+    color: #FFFFFF;
+    border: 1px solid var(--color-ink);
+    transition: background .2s ease, color .2s ease;
+  }
+
+  .hero-primary:hover {
+    background: var(--color-accent);
+    color: #FFFFFF;
+  }
+
+  .hero-secondary {
+    padding: 0 2px;
+    border-bottom: 1px solid var(--color-ink);
+  }
+
+  .hero-generator {
+    min-width: 0;
+    animation: hero-card-enter .7s cubic-bezier(.22, 1, .36, 1) both;
+  }
+
+  .hero-col-main > * {
+    animation: hero-copy-enter .65s cubic-bezier(.22, 1, .36, 1) both;
+  }
+
+  .hero-col-main > :nth-child(2) { animation-delay: .06s; }
+  .hero-col-main > :nth-child(3) { animation-delay: .12s; }
+  .hero-col-main > :nth-child(4) { animation-delay: .18s; }
+  .hero-col-main > :nth-child(5) { animation-delay: .24s; }
+
+  @keyframes hero-copy-enter {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes hero-card-enter {
+    from { opacity: 0; transform: translateY(22px) scale(.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .hero-col-main, .hero-generator { min-width: 0; }
+  }
+
+  @media (max-width: 640px) {
+    .hero-grid { padding: 58px 20px 48px; gap: 38px; }
+    .hero-title { font-size: clamp(42px, 13vw, 58px); }
+    .lead-text { font-size: 17px; }
+    .hero-actions { align-items: stretch; flex-direction: column; }
+    .hero-secondary { align-self: flex-start; min-height: 38px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-generator,
+    .hero-col-main > * { animation: none; }
+  }
+</style>

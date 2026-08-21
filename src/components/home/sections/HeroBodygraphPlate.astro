@@ -1,0 +1,51 @@
+---
+import BodyGraphCanvas from "../../bodygraph/BodyGraphCanvas.astro";
+---
+
+<figure class="hero-bodygraph-plate" aria-label="A sample Human Design bodygraph">
+  <div class="hero-bodygraph-frame">
+    <BodyGraphCanvas
+      theme="light"
+      accentColor="#5C2B2E"
+      cobaltColor="#17191A"
+      ivoryColor="#FBFBF9"
+    />
+  </div>
+  <figcaption>9 centres · 64 gates · 36 channels</figcaption>
+</figure>
+
+<style>
+  .hero-bodygraph-plate {
+    margin: 0;
+    padding: 14px;
+    background: #F4F3EF;
+    border: 1px solid var(--color-subtle-border);
+  }
+
+  .hero-bodygraph-frame {
+    min-height: 530px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 1px solid #EDECE6;
+  }
+
+  .hero-bodygraph-frame :global(.bodygraph-canvas-container) {
+    width: min(100%, 430px);
+  }
+
+  figcaption {
+    margin: 12px 2px 2px;
+    color: #8B8E86;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 640px) {
+    .hero-bodygraph-frame { min-height: 430px; }
+  }
+</style>

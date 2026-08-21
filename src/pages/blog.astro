@@ -1,0 +1,159 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/shared/Header.astro";
+import Footer from "../components/shared/Footer.astro";
+import BlogArticlesGrid from "../components/blog/BlogArticlesGrid.astro";
+import { BLOG_ARTICLES } from "../data/blog-articles.ts";
+import { getLocaleFromUrl, localizePath } from "../data/localization-contract.ts";
+
+export const prerender = false;
+const locale = getLocaleFromUrl(Astro.request.url);
+const homeHref = localizePath("/", locale);
+
+const seoContent = {
+  seo_title: "Human Design Writing & Field Notes — Nine Centres",
+  seo_description: "Deep-dive guides on the 9 centres, strategy, authorities, energy types, and practical deconditioning.",
+  seo_canonical_path: "/blog",
+  seo_robots: "index,follow",
+  og_title: "Human Design Writing & Field Notes — Nine Centres",
+  og_description: "Explore essays on human design mechanics, defined and open centres, and real-world experiments.",
+  og_image: "/_assets/aliases/logo/logo.svg",
+  og_image_alt: "Nine Centres Human Design Diagram",
+  twitter_card: "summary_large_image",
+  twitter_title: "Human Design Writing — Nine Centres",
+  twitter_description: "Practical guides and deconditioning field notes for Human Design.",
+  twitter_image: "/_assets/aliases/logo/logo.svg",
+};
+---
+
+<BaseLayout
+  seo={seoContent}
+  title="Human Design Writing & Field Notes — Nine Centres"
+>
+  <div class="site-wrap">
+    <Header brandName="Nine Centres" homeHref={homeHref} plateHref={`${homeHref}#plate`} typesHref={`${homeHref}#types`} readingsHref={`${homeHref}#readings`} questionsHref={`${homeHref}#faq`} chartHref={localizePath("/human-design", locale)} />
+
+    <main class="blog-main-content">
+      <!-- Blog Hero Section -->
+      <section class="blog-hero">
+        <div class="blog-hero-top">
+          <a href={homeHref} class="back-home-link">&larr; Back to home</a>
+          <p class="blog-eyebrow">FIELD NOTES &middot; PLAIN LANGUAGE</p>
+        </div>
+        <h1 class="blog-hero-title">
+          Reading the chart <span class="accent-text">yourself.</span>
+        </h1>
+        <p class="blog-hero-lead">
+          Essays on human design mechanics, the wisdom of open centres, practical deconditioning protocols, and real-world strategy experiments.
+        </p>
+      </section>
+
+      <!-- Articles Grid Section composed of common component -->
+      <section class="blog-grid-section">
+        <BlogArticlesGrid articles={BLOG_ARTICLES} />
+      </section>
+    </main>
+
+    <Footer brandName="Nine Centres" plateHref={`${homeHref}#plate`} readingsHref={`${homeHref}#readings`} questionsHref={`${homeHref}#faq`} chartHref={localizePath("/human-design", locale)} />
+  </div>
+</BaseLayout>
+
+<style>
+  .site-wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #16100D;
+    color: #F0E7DB;
+  }
+
+  .blog-main-content {
+    flex: 1;
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 84px 48px 120px;
+  }
+
+  .blog-hero {
+    border-bottom: 1px solid #4A3E36;
+    padding-bottom: 64px;
+    margin-bottom: 72px;
+  }
+
+  .blog-hero-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+
+  .back-home-link {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #D8F546;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .back-home-link:hover {
+    color: #E2603D;
+  }
+
+  .blog-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #E2603D;
+    margin: 0;
+  }
+
+  .blog-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 8vw, 118px);
+    font-weight: 500;
+    line-height: 0.88;
+    letter-spacing: -0.075em;
+    margin: 0 0 40px;
+    max-width: 1120px;
+    text-wrap: balance;
+  }
+
+  .accent-text {
+    color: #D8F546;
+    font-family: var(--font-editorial);
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: -0.035em;
+  }
+
+  .blog-hero-lead {
+    font-size: clamp(17px, 1.7vw, 23px);
+    line-height: 1.5;
+    color: #B6A99B;
+    max-width: 760px;
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .blog-main-content {
+      padding: 52px 20px 80px;
+    }
+
+    .blog-hero-top {
+      align-items: flex-start;
+      flex-direction: column;
+      margin-bottom: 40px;
+    }
+
+    .blog-hero {
+      margin-bottom: 48px;
+      padding-bottom: 48px;
+    }
+  }
+</style>

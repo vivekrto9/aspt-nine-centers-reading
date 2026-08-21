@@ -1,0 +1,199 @@
+---
+import type { BlogArticle } from "../../data/blog-articles.ts";
+import { getLocaleFromUrl, localizePath } from "../../data/localization-contract.ts";
+
+interface Props {
+  article: BlogArticle;
+}
+
+const { article } = Astro.props;
+const locale = getLocaleFromUrl(Astro.request.url);
+const chartFormHref = `${localizePath("/", locale)}#chart`;
+---
+
+<div class="article-body" data-article-body>
+  <div class="intro-block">
+    <p class="body-p intro-p">{article.content.intro}</p>
+  </div>
+
+  {article.content.sections.map((section) => (
+    <section class="content-section">
+      <h2 class="section-subheading">{section.heading}</h2>
+      {section.paragraphs.map((p) => (
+        <p class="body-p">{p}</p>
+      ))}
+      {section.highlight && (
+        <blockquote class="article-highlight-quote">
+          <p class="quote-text">{section.highlight}</p>
+        </blockquote>
+      )}
+    </section>
+  ))}
+
+  <!-- Key Takeaways Box -->
+  <div class="takeaways-box">
+    <div class="takeaways-header">
+      <span class="takeaways-icon">&#9670;</span>
+      <h3 class="takeaways-title">Key takeaways from this guide</h3>
+    </div>
+    <ul class="takeaways-list">
+      {article.content.takeaways.map((point) => (
+        <li class="takeaway-item">{point}</li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- In-article Chart Conversion Box -->
+  <div class="bottom-cta-card">
+    <div class="cta-card-content">
+      <h3 class="cta-card-title">Explore your own chart mechanics</h3>
+      <p class="cta-card-text">Calculate your complete Human Design bodygraph with planetary activations, definition, and authority.</p>
+    </div>
+    <a href={chartFormHref} class="cta-card-btn">Generate free chart &rarr;</a>
+  </div>
+</div>
+
+<style>
+  .article-body {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .intro-p {
+    font-size: 20px;
+    line-height: 1.7;
+    font-weight: 500;
+    color: #17191A;
+    margin-bottom: 64px;
+  }
+
+  .content-section {
+    margin-bottom: 56px;
+  }
+
+  .section-subheading {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    margin: 0 0 18px;
+    color: #0B3D2E;
+  }
+
+  .body-p {
+    font-size: 17px;
+    line-height: 1.78;
+    color: #6E7169;
+    margin: 0 0 24px;
+  }
+
+  .article-highlight-quote {
+    background: #FFFFFF;
+    color: #17191A;
+    border: 1px solid #D8D7D0;
+    border-left: 5px solid #5C2B2E;
+    padding: 28px 32px;
+    margin: 40px 0;
+  }
+
+  .quote-text {
+    font-family: var(--font-editorial);
+    font-size: 25px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.42;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .takeaways-box {
+    background: #FFFFFF;
+    border: 1px solid #D8D7D0;
+    padding: 32px;
+    margin: 48px 0 64px;
+  }
+
+  .takeaways-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #D8D7D0;
+    padding-bottom: 14px;
+  }
+
+  .takeaways-icon {
+    color: #5C2B2E;
+    font-size: 18px;
+  }
+
+  .takeaways-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .takeaways-list {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .takeaway-item {
+    font-size: 15.5px;
+    line-height: 1.5;
+    color: #6E7169;
+  }
+
+  .bottom-cta-card {
+    background: #0B3D2E;
+    color: #FBFBF9;
+    border: 1px solid #0B3D2E;
+    padding: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+
+  .cta-card-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin: 0 0 8px;
+  }
+
+  .cta-card-text {
+    font-size: 14.5px;
+    color: #D8D7D0;
+    margin: 0;
+    max-width: 480px;
+  }
+
+  .cta-card-btn {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #FBFBF9;
+    color: #17191A;
+    border: 1px solid #FBFBF9;
+    padding: 14px 24px;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .cta-card-btn:hover {
+    background: #5C2B2E;
+    color: #FBFBF9;
+  }
+</style>

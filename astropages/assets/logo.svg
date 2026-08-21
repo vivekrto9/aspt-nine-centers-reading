@@ -1,0 +1,7 @@
+<svg width="192" height="48" viewBox="0 0 192 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Nine Centres logo</title>
+  <desc id="desc">A circular nine mark beside the Nine Centres wordmark.</desc>
+  <circle cx="24" cy="24" r="17.25" fill="#FBFBF9" stroke="#17191A" stroke-width="1.5"/>
+  <text x="24" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#17191A">IX</text>
+  <text x="52" y="29" font-family="Georgia, serif" font-size="20" fill="#17191A">Nine Centres</text>
+</svg>

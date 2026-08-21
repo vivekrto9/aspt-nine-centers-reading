@@ -1,0 +1,18 @@
+{
+  "siteSettings": {
+    "brandName": "Nine Centres",
+    "siteUrl": "",
+    "primaryColor": "#0B3D2E",
+    "contactEmail": "hello@example.com",
+    "defaultLocale": "en",
+    "timezone": "Asia/Kolkata",
+    "seoTitle": "Nine Centres — Human Design Reading Almanac",
+    "seoDescription": "Generate your Human Design bodygraph and explore your type, authority, profile, centres, gates, and channels.",
+    "navigationMode": "single-page",
+    "tone": "editorial",
+    "typography": "editorial",
+    "buttonStyle": "square",
+    "enableAnnouncementBanner": false,
+    "announcementText": ""
+  }
+}

@@ -1,0 +1,125 @@
+---
+import type { BlogArticle } from "../../data/blog-articles.ts";
+import { getLocaleFromUrl, localizePath } from "../../data/localization-contract.ts";
+
+interface Props {
+  article: BlogArticle;
+}
+
+const { article } = Astro.props;
+const locale = getLocaleFromUrl(Astro.request.url);
+---
+
+<article class="blog-article-card" data-article-slug={article.slug}>
+  <a href={localizePath(`/blog/${article.slug}`, locale)} class="card-inner-link">
+    <div class="card-thumb">
+      <span class="card-tag">{article.tag}</span>
+    </div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="card-date">{article.date}</span>
+        <span class="card-author">&middot; {article.author}</span>
+      </div>
+      <h2 class="card-title">{article.title}</h2>
+      <p class="card-excerpt">{article.excerpt}</p>
+      <div class="card-footer">
+        <span class="read-more-btn">Read guide &rarr;</span>
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  .blog-article-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #D8D7D0;
+    background: #FFFFFF;
+    transition: border-color 0.18s ease, background 0.18s ease;
+  }
+
+  .blog-article-card:hover {
+    border-color: #0B3D2E;
+    background: #241C18;
+  }
+
+  .card-inner-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card-thumb {
+    aspect-ratio: 16 / 9;
+    background:
+      linear-gradient(135deg, transparent 0 49.6%, #E8E7E1 49.7% 50.3%, transparent 50.4%),
+      linear-gradient(45deg, transparent 0 49.6%, #E8E7E1 49.7% 50.3%, transparent 50.4%),
+      #FFFFFF;
+    background-size: 92px 92px;
+    border-bottom: 1px solid #D8D7D0;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+  }
+
+  .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #0B3D2E;
+  }
+
+  .card-body {
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-meta {
+    font-size: 12px;
+    color: #8B8E86;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+    margin: 0 0 12px;
+  }
+
+  .card-excerpt {
+    font-size: 14.5px;
+    line-height: 1.48;
+    color: #6E7169;
+    margin: 0 0 24px;
+    flex: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #E8E7E1;
+    padding-top: 14px;
+  }
+
+  .read-more-btn {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #0B3D2E;
+  }
+
+  .blog-article-card:hover .read-more-btn {
+    color: #5C2B2E;
+  }
+</style>

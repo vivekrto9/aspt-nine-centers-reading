@@ -1,0 +1,144 @@
+---
+import { VOCABULARY_CONCEPTS } from "../../../data/human-design.constants.ts";
+
+const { eyebrow = "01 · Foundations", title = "What Human Design actually is", eyebrowEdit = {}, titleEdit = {} } = Astro.props;
+---
+
+<section id="foundations" class="four-concepts-section" data-four-concepts-section>
+  <div class="section-header-grid">
+    <span class="section-number">01</span>
+    <div class="section-title-wrap">
+      <p class="section-eyebrow" {...eyebrowEdit}>{eyebrow}</p>
+      <h2 class="section-heading" {...titleEdit}>{title}</h2>
+    </div>
+  </div>
+
+  <div class="concepts-grid">
+    {VOCABULARY_CONCEPTS.map((c, i) => (
+      <div class={`concept-card concept-step-${i + 1}`}>
+        <p class="concept-num">{c.num}</p>
+        <h3 class="concept-title">{c.title}</h3>
+        <p class="concept-body">{c.body}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .four-concepts-section {
+    padding: 104px 32px 0;
+  }
+
+  .section-header-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+    align-items: end;
+    margin-bottom: 52px;
+  }
+
+  .section-number {
+    grid-column: 1 / span 2;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 96px;
+    line-height: 0.72;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px #0B3D2E;
+  }
+
+  .section-title-wrap {
+    grid-column: 4 / span 7;
+  }
+
+  .section-eyebrow {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #5C2B2E;
+    margin: 0 0 12px;
+  }
+
+  .section-heading {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 3.6vw, 46px);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    margin: 0;
+  }
+
+  .concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px;
+    align-items: start;
+  }
+
+  .concept-card {
+    border-top: 3px solid #0B3D2E;
+    padding-top: 20px;
+  }
+
+  .concept-step-1 { margin-top: 0; }
+  .concept-step-2 { margin-top: 44px; }
+  .concept-step-3 { margin-top: 88px; }
+  .concept-step-4 { margin-top: 132px; }
+
+  .concept-num {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8B8E86;
+    margin: 0 0 14px;
+  }
+
+  .concept-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.04;
+    letter-spacing: -0.045em;
+    margin: 0 0 12px;
+  }
+
+  .concept-body {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: #6E6157;
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 900px) {
+    .section-header-grid {
+      grid-template-columns: 1fr;
+    }
+    .section-number, .section-title-wrap {
+      grid-column: span 1;
+    }
+    .concepts-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .concept-step-2, .concept-step-3, .concept-step-4 {
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .concepts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Reading Almanac theme */
+  .four-concepts-section { background: #FFFFFF; color: #17191A; border-block: 1px solid #E8E7E1; }
+  .section-number { -webkit-text-stroke-color: #0B3D2E; }
+  .concept-card { border-top-color: #D8D7D0; }
+  .concept-num { color: #0B3D2E; }
+  .concept-title { color: #17191A; }
+  .concept-body { color: #8B8E86; }
+</style>

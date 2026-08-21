@@ -1,0 +1,346 @@
+/* Almanac homepage composition.
+   These selectors intentionally outrank the inherited template's scoped theme
+   styles while the chart, checkout, and editor contracts remain unchanged. */
+
+.site-wrap main > section:not(.home-hero) {
+  border-top: 1px solid var(--color-subtle-border);
+}
+
+.site-wrap .section-number {
+  display: none;
+}
+
+.site-wrap .section-eyebrow,
+.site-wrap .letters-eyebrow,
+.site-wrap .offer-kicker,
+.site-wrap .tag-accent,
+.site-wrap .tag-muted {
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+
+.site-wrap .section-heading {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4vw, 44px);
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: -.018em;
+}
+
+.site-wrap .four-concepts-section,
+.site-wrap .five-types-section,
+.site-wrap .nine-centres-section,
+.site-wrap .readings-section,
+.site-wrap .how-it-runs-section,
+.site-wrap .faq-section,
+.site-wrap .articles-section,
+.site-wrap .final-cta-section {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 86px 32px;
+  background: var(--color-cream);
+  color: var(--color-ink);
+}
+
+.site-wrap .four-concepts-section .section-header-grid,
+.site-wrap .nine-centres-section .section-header-grid,
+.site-wrap .readings-section .section-header-grid,
+.site-wrap .how-it-runs-section .section-header-grid,
+.site-wrap .articles-section .section-header-grid {
+  display: block;
+  margin: 0 0 44px;
+}
+
+.site-wrap .four-concepts-section .section-title-wrap,
+.site-wrap .nine-centres-section .section-title-wrap,
+.site-wrap .readings-section .section-title-wrap,
+.site-wrap .how-it-runs-section .section-title-wrap,
+.site-wrap .articles-section .section-title-wrap {
+  width: auto;
+  max-width: 650px;
+}
+
+.site-wrap .concepts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  padding: 1px;
+  background: var(--color-subtle-border);
+}
+
+.site-wrap .concept-card,
+.site-wrap .concept-step-1,
+.site-wrap .concept-step-2,
+.site-wrap .concept-step-3,
+.site-wrap .concept-step-4 {
+  margin: 0;
+  padding: 24px 22px;
+  border: 0;
+  background: #FFFFFF;
+}
+
+.site-wrap .concept-num {
+  color: var(--color-accent);
+}
+
+.site-wrap .concept-title,
+.site-wrap .step-title,
+.site-wrap .article-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -.015em;
+}
+
+.site-wrap .concept-body,
+.site-wrap .step-body {
+  color: var(--color-text-dark);
+  line-height: 1.65;
+}
+
+.site-wrap .five-types-section .section-header-grid {
+  margin-bottom: 36px;
+}
+
+.site-wrap .five-types-section .section-heading-cluster {
+  display: block;
+}
+
+.site-wrap .five-types-section .section-title-wrap {
+  padding: 0;
+}
+
+.site-wrap .five-types-section .section-hint {
+  color: var(--color-muted);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.site-wrap .types-container {
+  gap: 1px;
+  min-height: 410px;
+  padding: 1px;
+  background: var(--color-subtle-border);
+}
+
+.site-wrap .type-column,
+.site-wrap .type-column.is-open {
+  background: #FFFFFF;
+  border: 0;
+  box-shadow: none;
+}
+
+.site-wrap .type-trigger {
+  color: var(--color-ink);
+  background: #F4F3EF;
+}
+
+.site-wrap .type-reading {
+  color: var(--color-ink);
+  background: #FFFFFF;
+}
+
+.site-wrap .nine-centres-section {
+  width: 100%;
+  max-width: none;
+  padding-inline: max(32px, calc((100vw - 1180px) / 2));
+  background: #F4F3EF;
+}
+
+.site-wrap .nine-centres-section .diagram-grid {
+  border-color: var(--color-subtle-border);
+  background: #FFFFFF;
+}
+
+.site-wrap .nine-centres-section .canvas-plate-col,
+.site-wrap .nine-centres-section .centres-col,
+.site-wrap .nine-centres-section .activations-col {
+  background: #FFFFFF;
+  border-color: var(--color-subtle-border);
+}
+
+.site-wrap .readings-section .reading-offer {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr);
+  gap: 54px;
+  padding: 38px;
+  background: #FFFFFF;
+  border: 1px solid var(--color-subtle-border);
+  box-shadow: none;
+  transform: none;
+}
+
+.site-wrap .readings-section .offer-copy h3,
+.site-wrap .readings-section .offer-price {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.site-wrap .readings-section .offer-cta,
+.site-wrap .generator-section .submit-btn,
+.site-wrap .generator-section .action-btn-primary {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: #FFFFFF;
+}
+
+.site-wrap .readings-section .offer-cta:hover,
+.site-wrap .generator-section .submit-btn:hover,
+.site-wrap .generator-section .action-btn-primary:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.site-wrap .how-it-runs-section .steps-grid {
+  border-color: var(--color-subtle-border);
+}
+
+.site-wrap .how-it-runs-section .step-card {
+  padding: 26px 24px;
+  border-color: var(--color-subtle-border);
+}
+
+.site-wrap .client-letters-section {
+  width: 100%;
+  margin: 0;
+  padding: 78px max(32px, calc((100vw - 1180px) / 2));
+  background: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.site-wrap .client-letters-section .letters-eyebrow,
+.site-wrap .client-letters-section .testimonial-author {
+  color: rgba(255, 255, 255, .65);
+}
+
+.site-wrap .client-letters-section .testimonial-quote {
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.site-wrap .generator-section {
+  padding: 86px max(32px, calc((100vw - 1180px) / 2));
+  background: #FBFBF9;
+}
+
+.site-wrap .generator-section .tilted-card {
+  grid-column: 1 / span 8;
+}
+
+.site-wrap .generator-section .side-note-box {
+  grid-column: 10 / span 3;
+}
+
+.site-wrap .faq-section {
+  width: 100%;
+  max-width: none;
+  padding-inline: max(32px, calc((100vw - 1180px) / 2));
+  background: #F4F3EF;
+}
+
+.site-wrap .faq-section .faq-grid {
+  grid-template-columns: minmax(240px, .8fr) minmax(0, 1.2fr);
+  gap: 72px;
+}
+
+.site-wrap .faq-section .faq-title-wrap,
+.site-wrap .faq-section .faq-accordion-wrap {
+  grid-column: auto;
+}
+
+.site-wrap .faq-section .faq-item,
+.site-wrap .faq-section .faq-trigger {
+  border-color: var(--color-border-strong);
+  color: var(--color-ink);
+}
+
+.site-wrap .articles-section .section-cta-wrap {
+  margin-top: 22px;
+  justify-content: flex-start;
+}
+
+.site-wrap .articles-section .view-all-cta {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.site-wrap .articles-section .article-card,
+.site-wrap .articles-section .article-thumb {
+  background: #FFFFFF;
+  border-color: var(--color-subtle-border);
+  box-shadow: none;
+  transform: none;
+}
+
+.site-wrap .final-cta-section {
+  width: 100%;
+  max-width: none;
+  padding-inline: max(32px, calc((100vw - 1180px) / 2));
+  background: #17191A;
+}
+
+.site-wrap .final-cta-section .cta-banner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0;
+  background: transparent;
+  color: #FFFFFF;
+}
+
+.site-wrap .final-cta-section .cta-title {
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.site-wrap .final-cta-section .cta-subtitle {
+  color: #B9BAB2;
+}
+
+.site-wrap .final-cta-section .cta-action-btn {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  color: #17191A;
+}
+
+@media (max-width: 900px) {
+  .site-wrap .concepts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .site-wrap .readings-section .reading-offer { grid-template-columns: 1fr; }
+  .site-wrap .faq-section .faq-grid { grid-template-columns: 1fr; gap: 34px; }
+  .site-wrap .generator-section .tilted-card,
+  .site-wrap .generator-section .side-note-box { grid-column: 1 / -1; }
+}
+
+@media (max-width: 640px) {
+  .site-wrap .four-concepts-section,
+  .site-wrap .five-types-section,
+  .site-wrap .nine-centres-section,
+  .site-wrap .readings-section,
+  .site-wrap .how-it-runs-section,
+  .site-wrap .faq-section,
+  .site-wrap .articles-section,
+  .site-wrap .final-cta-section,
+  .site-wrap .generator-section,
+  .site-wrap .client-letters-section {
+    padding: 64px 20px;
+  }
+
+  .site-wrap .concepts-grid { grid-template-columns: 1fr; }
+  .site-wrap .types-container { min-height: 0; }
+  .site-wrap .readings-section .reading-offer { padding: 26px 22px; gap: 30px; }
+}

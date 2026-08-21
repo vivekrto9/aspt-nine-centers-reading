@@ -1,0 +1,100 @@
+:root {
+  color-scheme: light;
+  --color-cobalt: #0B3D2E;
+  --color-cream: #FBFBF9;
+  --color-ink: #17191A;
+  --color-accent: #0B3D2E;
+  --color-muted: #8B8E86;
+  --color-soft-blue: #6E7169;
+  --color-subtle-border: #E8E7E1;
+  --color-text-dark: #4B4E48;
+  --color-text-light: #FBFBF9;
+  --color-panel: #FFFFFF;
+  --color-panel-raised: #F4F3EF;
+  --color-border-strong: #D8D7D0;
+
+  --font-display: 'Libre Caslon Text', Georgia, serif;
+  --font-editorial: 'Libre Caslon Text', Georgia, serif;
+  --font-sans: 'Space Grotesk', Helvetica, Arial, sans-serif;
+
+  /* Bodygraph Canvas Custom Tokens */
+  --hd-bg-primary: #FBFBF9;
+  --hd-bg-secondary: #FFFFFF;
+  --hd-text-primary: #17191A;
+  --hd-text-secondary: #6E7169;
+  --hd-cta-primary: #0B3D2E;
+  --hd-design-pipe: #5C2B2E;
+  --hd-personality-pipe: #17191A;
+  --hd-pipe-bg: #DEDDD6;
+  --hd-center-head: #FFFFFF;
+  --hd-center-ajna: #E4E3DA;
+  --hd-center-throat: #A9ACA4;
+  --hd-center-g: #F4F3EF;
+  --hd-center-ego: #5C2B2E;
+  --hd-center-spleen: #7E8178;
+  --hd-center-sacral: #C4C6BE;
+  --hd-center-solar: #9C9F96;
+  --hd-center-root: #3D403A;
+  --hd-gate-active-bg: #17191A;
+  --hd-gate-active-text: #FFFFFF;
+  --hd-focus-color: #0B3D2E;
+  --hd-silhouette: #EDECE6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+a {
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+input, select, button, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+::placeholder {
+  color: var(--color-muted);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.site-wrap {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* Staggered margins for reading cards & types */
+.stagger-1 { margin-left: 0%; }
+.stagger-2 { margin-left: 5%; }
+.stagger-3 { margin-left: 10%; }
+
+@media (max-width: 768px) {
+  .stagger-1, .stagger-2, .stagger-3 {
+    margin-left: 0 !important;
+  }
+}

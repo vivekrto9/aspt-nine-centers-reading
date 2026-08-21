@@ -1,0 +1,124 @@
+---
+interface Props {
+  brandName?: string;
+  brandEdit?: Record<string, string>;
+  noteEdit?: Record<string, string>;
+  plateHref?: string;
+  readingsHref?: string;
+  questionsHref?: string;
+  chartHref?: string;
+}
+
+const {
+  brandName = "Nine Centres",
+  brandEdit = {},
+  noteEdit = {},
+  plateHref = "#foundations",
+  readingsHref = "#readings",
+  questionsHref = "#faq",
+  chartHref = "#chart",
+} = Astro.props;
+---
+
+<footer class="hd-footer" data-hd-footer>
+  <div class="footer-top">
+    <div class="footer-intro">
+      <p class="footer-kicker">Nine centres · one operating manual</p>
+      <p class="footer-title" {...brandEdit}>{brandName}</p>
+    </div>
+    <nav class="footer-nav" aria-label="Footer Navigation">
+      <a href={plateHref} class="footer-link">Foundations</a>
+      <a href={readingsHref} class="footer-link">Readings</a>
+      <a href={questionsHref} class="footer-link">FAQ</a>
+      <a href={chartHref} class="footer-link cta-accent">Generate chart ↗</a>
+    </nav>
+  </div>
+  <div class="footer-base">
+    <p {...noteEdit}>Your chart is information, not instruction.</p>
+    <p>&copy; 2026 &middot; {brandName.toLowerCase()}</p>
+  </div>
+</footer>
+
+<style>
+  .hd-footer {
+    background: #17191A;
+    color: #FFFFFF;
+    padding: 64px max(24px, calc((100vw - 1180px) / 2)) 24px;
+    border-top: 1px solid #2A2C2D;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    justify-content: space-between;
+    gap: 48px;
+    padding-bottom: 56px;
+  }
+
+  .footer-kicker {
+    margin: 0 0 16px;
+    color: #8B8E86;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+
+  .footer-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(44px, 6vw, 82px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -.03em;
+  }
+
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-link {
+    font-size: 12px;
+    font-weight: 500;
+    color: #B9BAB2;
+    text-decoration: none;
+    transition: color .2s ease;
+  }
+
+  .footer-link:hover {
+    color: #FFFFFF;
+  }
+
+  .footer-link.cta-accent {
+    color: #FFFFFF;
+  }
+
+  .footer-base {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #2A2C2D;
+    color: #8B8E86;
+    font-size: 11px;
+  }
+
+  .footer-base p { margin: 0; }
+
+  @media (max-width: 640px) {
+    .hd-footer {
+      padding: 48px 20px 20px;
+    }
+    .footer-top {
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: 34px;
+    }
+    .footer-nav { justify-content: flex-start; }
+    .footer-base { flex-direction: column; gap: 8px; }
+  }
+</style>

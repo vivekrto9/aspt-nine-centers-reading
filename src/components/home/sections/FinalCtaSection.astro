@@ -1,0 +1,105 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+  buttonText?: string;
+  buttonHref?: string;
+  titleEdit?: Record<string, string>;
+  subtitleEdit?: Record<string, string>;
+  buttonEdit?: Record<string, string>;
+}
+
+const {
+  title = "Start with the chart. Decide about the reading after.",
+  subtitle = "Free, sent within a day.",
+  buttonText = "Get your free bodygraph",
+  buttonHref = "#chart",
+  titleEdit = {},
+  subtitleEdit = {},
+  buttonEdit = {},
+} = Astro.props;
+---
+
+<section class="final-cta-section" data-final-cta-section>
+  <div class="cta-banner">
+    <div class="cta-text-wrap">
+      <h2 class="cta-title" {...titleEdit}>{title}</h2>
+      <p class="cta-subtitle" {...subtitleEdit}>{subtitle}</p>
+    </div>
+    <a href={buttonHref} class="cta-action-btn" {...buttonEdit}>
+      {buttonText}
+    </a>
+  </div>
+</section>
+
+<style>
+  .final-cta-section {
+    padding: 104px 32px 96px;
+  }
+
+  .cta-banner {
+    background: #FBFBF9;
+    color: #17191A;
+    padding: 64px 44px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 36px;
+  }
+
+  .cta-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+    margin: 0 0 14px;
+    max-width: 20ch;
+  }
+
+  .cta-subtitle {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #6E7169;
+    margin: 0;
+  }
+
+  .cta-action-btn {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #FBFBF9;
+    background: #5C2B2E;
+    border: 1.5px solid #5C2B2E;
+    padding: 18px 30px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .cta-action-btn:hover {
+    background: #17191A;
+    border-color: #17191A;
+    color: #FBFBF9;
+  }
+
+  @media (max-width: 768px) {
+    .final-cta-section {
+      padding: 64px 20px 48px;
+    }
+    .cta-banner {
+      padding: 40px 24px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  /* Reading Almanac theme */
+  .final-cta-section { background: #FBFBF9; color: #17191A; border-top: 1px solid #E8E7E1; }
+  .cta-banner { border-color: #0B3D2E; background: #FFFFFF; }
+  .cta-subtitle { color: #8B8E86; }
+  .cta-action-btn { background: #0B3D2E; color: #FBFBF9; border-color: #0B3D2E; }
+  .cta-action-btn:hover { background: #17191A; color: #FBFBF9; border-color: #17191A; }
+</style>
