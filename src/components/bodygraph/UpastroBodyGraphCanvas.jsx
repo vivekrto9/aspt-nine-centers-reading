@@ -56,7 +56,7 @@ const DESIGN_COLOR = "var(--hd-design-pipe)";
 const PERSONALITY_COLOR = "var(--hd-personality-pipe)";
 const INACTIVE_CHANNEL_COLOR = "var(--hd-pipe-bg)";
 const ACTIVE_GATE_FILL = "var(--hd-gate-active-bg)";
-const OPEN_CENTER_FILL = "var(--hd-pipe-bg)";
+const OPEN_CENTER_FILL = "var(--hd-center-open, #F5F4EF)";
 const DIMMED_CENTER_OPACITY = 0.12;
 const DIMMED_CHANNEL_OPACITY = 0.105;
 const DIMMED_CHANNEL_BACKDROP_OPACITY = 0.09;
@@ -283,18 +283,20 @@ const isCenterDefinitionActive = (center) => {
   return state === "defined" || state === "active";
 };
 
-const getInactiveGateTextColor = (_gate, centerFill) =>
-  centerFill === OPEN_CENTER_FILL
-    ? "var(--hd-gate-inactive-open)"
-    : "var(--hd-gate-inactive-defined)";
+const DARK_CENTER_NAMES = new Set(["Ego", "Spleen", "Root"]);
+
+const getInactiveGateTextColor = (_gate, centerName, centerFill) => {
+  if (centerFill === OPEN_CENTER_FILL) return "var(--hd-gate-inactive-open)";
+  if (DARK_CENTER_NAMES.has(centerName)) {
+    return "var(--hd-gate-inactive-on-dark, #F4F3EF)";
+  }
+  return "var(--hd-gate-inactive-defined)";
+};
 
 const getActiveGateFill = (centerFill) =>
   centerFill === OPEN_CENTER_FILL ? "var(--hd-personality-pipe)" : ACTIVE_GATE_FILL;
 
-const getActiveGateTextColor = (centerFill) =>
-  centerFill === OPEN_CENTER_FILL
-    ? "#16100D"
-    : "var(--hd-gate-active-text)";
+const getActiveGateTextColor = () => "var(--hd-gate-active-text, #FFFFFF)";
 
 const getGateFontWeight = (_gate, active) => (active ? "700" : "600");
 
@@ -1826,7 +1828,7 @@ const BodyGraphCanvas = ({
                 viewBox="190 0 1600 2000"
                 preserveAspectRatio="xMidYMid meet"
                 className="pointer-events-none absolute left-1/2 top-[-118px] h-[calc(100%+218px)] w-[calc(100%+88px)] -translate-x-1/2 overflow-visible sm:top-[-136px] sm:h-[calc(100%+250px)] sm:w-[calc(100%+70px)]"
-                style={{ opacity: isLight ? 0.16 : 0.2 }}
+                style={{ opacity: isLight ? 0.56 : 0.24 }}
               >
                 <path
                   d={HUMAN_FIGURE_PATH}
@@ -1867,6 +1869,8 @@ const BodyGraphCanvas = ({
                 <g>
                   {Object.entries(GRAPH.centers).map(([name, center]) => {
                     const highlighted = isCenterHighlighted(name);
+                    const centerFill = getCenterFill(name, center);
+                    const isOpenCenter = centerFill === OPEN_CENTER_FILL;
                     const showHoverBorder =
                       Boolean(hoveredId) &&
                         (hoveredId.startsWith("center-") ||
@@ -1882,11 +1886,15 @@ const BodyGraphCanvas = ({
                       );
                     };
                     const commonProps = {
-                      fill: getCenterFill(name, center),
+                      fill: centerFill,
                       opacity: highlighted ? 1 : DIMMED_CENTER_OPACITY,
                       stroke:
-                        showHoverBorder && highlighted ? "var(--hd-focus-color)" : "none",
-                      strokeWidth: showHoverBorder && highlighted ? 3 : 0,
+                        showHoverBorder && highlighted
+                          ? "var(--hd-focus-color)"
+                          : isOpenCenter
+                            ? "var(--hd-center-open-stroke, #8B8E86)"
+                            : "var(--hd-center-defined-stroke, #6E7169)",
+                      strokeWidth: showHoverBorder && highlighted ? 3 : 1.5,
                       vectorEffect: "non-scaling-stroke",
                       "data-center": name,
                       ...(interactive ? {
@@ -2039,7 +2047,7 @@ const BodyGraphCanvas = ({
                           fill={
                             active
                               ? getActiveGateTextColor(centerFill)
-                              : getInactiveGateTextColor(gate, centerFill)
+                              : getInactiveGateTextColor(gate, centerName, centerFill)
                           }
                         >
                           {gate}

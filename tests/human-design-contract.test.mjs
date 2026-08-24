@@ -64,11 +64,23 @@ test("bodygraph result page exposes the Almanac explorer workspace and interpret
   const result = read("src/pages/human-design/[slug].astro");
   const canvas = read("src/components/bodygraph/UpastroBodyGraphCanvas.jsx");
   assert.match(result, /Bodygraph explorer/);
-  assert.match(result, /<UpastroBodyGraphCanvas theme="light"[\s\S]*client:only="react"/);
-  assert.match(result, /slot="fallback"[\s\S]*<BodyGraphCanvas theme="light"/);
+  assert.match(result, /<UpastroBodyGraphCanvas theme="light"[\s\S]*interactive=\{false\}/);
+  assert.doesNotMatch(result, /client:only="react"/);
   assert.match(canvas, /const PRIORITY_ACTIVE_OVERLAY_CHANNELS/);
   assert.match(canvas, /const INTEGRATION_CLUSTER_ALL_CHANNELS/);
   assert.match(canvas, /const getChannelSegments/);
+  assert.match(canvas, /const OPEN_CENTER_FILL = "var\(--hd-center-open, #F5F4EF\)"/);
+  assert.match(canvas, /var\(--hd-center-open-stroke, #8B8E86\)/);
+  assert.match(canvas, /var\(--hd-center-defined-stroke, #6E7169\)/);
+  assert.match(canvas, /const DARK_CENTER_NAMES = new Set\(\["Ego", "Spleen", "Root"\]\)/);
+  assert.match(canvas, /var\(--hd-gate-inactive-on-dark, #F4F3EF\)/);
+  assert.match(canvas, /getActiveGateTextColor = \(\) => "var\(--hd-gate-active-text, #FFFFFF\)"/);
+  assert.match(canvas, /opacity: isLight \? 0\.56 : 0\.24/);
+  assert.match(read("src/styles/almanac-routes.css"), /--hd-gate-inactive-defined: #17191A/);
+  assert.match(read("src/styles/almanac-routes.css"), /--hd-gate-inactive-open: #4B4E48/);
+  assert.match(read("src/styles/almanac-routes.css"), /--hd-silhouette: #C7CEC8/);
+  assert.match(read("src/styles/almanac-routes.css"), /--hd-pipe-bg: #A9B0A9/);
+  assert.match(read("src/styles/almanac-routes.css"), /--hd-center-open: #F5F4EF/);
   assert.match(canvas, /className={`upastro-bodygraph-canvas/);
   assert.match(canvas, /className={`upastro-activation-row/);
   assert.doesNotMatch(canvas, /<button/);
@@ -85,8 +97,10 @@ test("bodygraph result page exposes the Almanac explorer workspace and interpret
   assert.match(propertiesDrawer, /data-property-back/);
   assert.match(propertiesDrawer, /data-property-previous/);
   assert.match(propertiesDrawer, /data-property-next/);
-  assert.match(propertiesDrawer, /<UnlockReadingCard upgradeHref={upgradeHref}/);
-  assert.match(propertiesDrawer, /!unlocked && <UnlockReadingCard/);
+  assert.match(propertiesDrawer, /data-property-locked={String\(detailContent\(/);
+  assert.match(propertiesDrawer, /!unlocked && <div data-property-unlock hidden><UnlockReadingCard upgradeHref={upgradeHref}/);
+  assert.match(propertiesDrawer, /if \(unlock\) unlock\.hidden = card\.dataset\.propertyLocked !== "true"/);
+  assert.match(propertiesDrawer, /copy: \(unlocked \? complete : complete\.slice\(0, 1\)\)\.join\("\\n\\n"\)/);
   assert.match(
     result,
     /<BodyGraphGuidePanel properties={foundationalProperties} chart={chartView} unlocked={hasFullReadingAccess} upgradeHref=/,
@@ -104,8 +118,8 @@ test("bodygraph result page exposes the Almanac explorer workspace and interpret
   assert.match(guide, /aria-hidden="true">→<\/i>/);
   assert.match(guide, /manifesting-generator/);
   assert.match(guide, /energyImageKey\[energyType\.toLowerCase\(\)\]/);
-  assert.match(guide, /<UnlockReadingCard upgradeHref={upgradeHref}/);
-  assert.match(guide, /!unlocked && <UnlockReadingCard/);
+  assert.match(guide, /hasLockedContent: !unlocked && providerSections\.length > visibleSections\.length/);
+  assert.match(guide, /item\.hasLockedContent && <UnlockReadingCard upgradeHref={upgradeHref}/);
   const unlockCard = read("src/components/bodygraph/UnlockReadingCard.astro");
   assert.match(unlockCard, /Unlock the Full Detailed Reading/);
   assert.match(unlockCard, /Upgrade Now/);
@@ -131,6 +145,9 @@ test("successful Stripe payment returns to and unlocks the linked saved chart", 
   const orders = read("src/server/capabilities/vendor/astropages-capabilities/human-design-orders.ts");
   assert.match(checkout, /successPath = order\.readingId/);
   assert.match(checkout, /\/human-design\/\$\{encodeURIComponent\(order\.readingId\)\}/);
+  assert.match(checkout, /getHumanDesignReading\(\{ env, readingId, kind: "chart" \}\)/);
+  assert.match(checkout, /requiresNewChart: true/);
+  assert.match(checkout, /Generate a new chart before starting checkout/);
   assert.match(orders, /hasPaidHumanDesignReadingAccess/);
   assert.match(orders, /payment_status = 'paid'/);
   assert.match(access, /getPaidHumanDesignReadingAccess/);
@@ -201,6 +218,14 @@ test("Human Design readings have a durable D1 table and declared secrets", () =>
   assert.deepEqual(secretKeys, ["ASTROLOGYAPI_USER_ID", "ASTROLOGYAPI_PASSWORD", "STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET"]);
 });
 
+test("local development applies D1 migrations before serving chart and payment routes", () => {
+  const packageJson = JSON.parse(read("package.json"));
+  assert.equal(
+    packageJson.scripts.predev,
+    "wrangler d1 migrations apply astropages-base-template-site --local",
+  );
+});
+
 test("proprietary masterclass implementation is not mounted or imported", () => {
   const index = read("src/pages/index.astro");
   assert.doesNotMatch(index, /MasterclassCourseView|masterclass-view-container/);
@@ -211,7 +236,6 @@ test("home exposes major visible section copy through Content Studio fields", ()
   const index = read("src/pages/index.astro");
   for (const field of [
     "generator_title",
-    "nine_centres_title",
     "concepts_title",
     "types_title",
     "readings_title",

@@ -1,14 +1,54 @@
 ---
-import BodyGraphCanvas from "../../bodygraph/BodyGraphCanvas.astro";
+import UpastroBodyGraphCanvas from "../../bodygraph/UpastroBodyGraphCanvas.jsx";
+import { CENTRES, ACTIVATIONS } from "../../../data/human-design.constants.ts";
+import "../../../styles/hd-routes.css";
+
+const designActivations = ACTIVATIONS.map((item, index) => ({
+  planet_id: index + 1,
+  hd_position: item.design,
+}));
+const personalityActivations = ACTIVATIONS.map((item, index) => ({
+  planet_id: index + 1,
+  hd_position: item.personality,
+}));
+const designGates = new Set(
+  designActivations.map((item) => Number(item.hd_position.split(".")[0])),
+);
+const personalityGates = new Set(
+  personalityActivations.map((item) => Number(item.hd_position.split(".")[0])),
+);
+const sampleChartData = {
+  planetary_activations: {
+    design: designActivations,
+    personality: personalityActivations,
+  },
+  gates: Array.from({ length: 64 }, (_, index) => {
+    const id = index + 1;
+    return {
+      id,
+      design: designGates.has(id) ? "active" : "inactive",
+      personality: personalityGates.has(id) ? "active" : "inactive",
+    };
+  }),
+  centers: CENTRES.map((centre) => ({
+    id: centre.id,
+    natal: centre.defined ? "defined" : "open",
+  })),
+  channels: ["20-34", "39-55", "30-41"].map((id) => ({
+    id,
+    natal: "active",
+  })),
+};
 ---
 
 <figure class="hero-bodygraph-plate" aria-label="A sample Human Design bodygraph">
   <div class="hero-bodygraph-frame">
-    <BodyGraphCanvas
+    <UpastroBodyGraphCanvas
       theme="light"
-      accentColor="#5C2B2E"
-      cobaltColor="#17191A"
-      ivoryColor="#FBFBF9"
+      chartData={sampleChartData}
+      interactive={false}
+      showActivationColumns={false}
+      client:only="react"
     />
   </div>
   <figcaption>9 centres · 64 gates · 36 channels</figcaption>
@@ -23,7 +63,9 @@ import BodyGraphCanvas from "../../bodygraph/BodyGraphCanvas.astro";
   }
 
   .hero-bodygraph-frame {
-    min-height: 530px;
+    height: 548px;
+    min-height: 0;
+    padding: 22px 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,8 +74,65 @@ import BodyGraphCanvas from "../../bodygraph/BodyGraphCanvas.astro";
     border: 1px solid #EDECE6;
   }
 
-  .hero-bodygraph-frame :global(.bodygraph-canvas-container) {
-    width: min(100%, 430px);
+  .hero-bodygraph-frame :global(.upastro-bodygraph-canvas) {
+    --hd-design-pipe: var(--color-accent);
+    --hd-personality-pipe: #17191A;
+    --hd-pipe-bg: #A9B0A9;
+    --hd-center-open: #F5F4EF;
+    --hd-center-open-stroke: #8B8E86;
+    --hd-center-defined-stroke: #6E7169;
+    --hd-gate-active-bg: #17191A;
+    --hd-gate-active-text: #FFFFFF;
+    --hd-gate-inactive-defined: #17191A;
+    --hd-gate-inactive-open: #4B4E48;
+    --hd-gate-inactive-on-dark: #FFFFFF;
+    --hd-focus-color: #0B3D2E;
+    --hd-silhouette: #C7CEC8;
+    --hd-center-head: #FFFFFF;
+    --hd-center-ajna: #E4E3DA;
+    --hd-center-throat: #A9ACA4;
+    --hd-center-g: #D6D5CB;
+    --hd-center-ego: #5C2B2E;
+    --hd-center-spleen: #7E8178;
+    --hd-center-sacral: #C4C6BE;
+    --hd-center-solar: #9C9F96;
+    --hd-center-root: #3D403A;
+    width: min(100%, 420px);
+    margin: 0;
+    color: #17191A;
+  }
+
+  .hero-bodygraph-frame :global(.upastro-bodygraph-canvas--graph-only > div) {
+    max-width: 420px;
+  }
+
+  .hero-bodygraph-frame :global(.upastro-bodygraph-canvas--graph-only > div > div) {
+    grid-template-columns: 0 minmax(0, 1fr) 0 !important;
+    gap: 0 !important;
+  }
+
+  .hero-bodygraph-frame :global(.upastro-bodygraph-canvas--graph-only > div > div > div:first-child),
+  .hero-bodygraph-frame :global(.upastro-bodygraph-canvas--graph-only > div > div > div:last-child) {
+    width: 0 !important;
+    overflow: hidden;
+  }
+
+  .hero-bodygraph-frame :global(.upastro-bodygraph-canvas--graph-only > div > div > div:nth-child(2)) {
+    width: min(100%, 400px) !important;
+  }
+
+  .hero-bodygraph-frame :global(.upastro-bodygraph-canvas svg:not([aria-hidden="true"])) {
+    height: auto !important;
+    transform: scale(.75);
+    transform-origin: center;
+  }
+
+  .hero-bodygraph-frame :global(.upastro-bodygraph-canvas svg[aria-hidden="true"]) {
+    top: -18px !important;
+    width: calc(100% + 5px) !important;
+    height: calc(100% + 36px) !important;
+    transform: translate(-50%, -2%) scale(1.10) !important;
+    transform-origin: center !important;
   }
 
   figcaption {
@@ -46,6 +145,20 @@ import BodyGraphCanvas from "../../bodygraph/BodyGraphCanvas.astro";
   }
 
   @media (max-width: 640px) {
-    .hero-bodygraph-frame { min-height: 430px; }
+    .hero-bodygraph-frame {
+      height: 420px;
+      min-height: 0;
+      padding: 24px 12px;
+    }
+
+    .hero-bodygraph-frame :global(.upastro-bodygraph-canvas),
+    .hero-bodygraph-frame :global(.upastro-bodygraph-canvas--graph-only > div) {
+      width: min(100%, 320px);
+      max-width: 320px;
+    }
+
+    .hero-bodygraph-frame :global(.upastro-bodygraph-canvas--graph-only > div > div > div:nth-child(2)) {
+      width: min(100%, 300px) !important;
+    }
   }
 </style>

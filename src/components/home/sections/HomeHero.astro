@@ -12,8 +12,8 @@ interface Props {
 }
 
 const {
-  dateline = "Charts read by hand · one at a time",
-  body = "A map of how you are built to decide, drawn from your birth date, time and place. Nothing here forecasts events.",
+  dateline = "Human Design readings",
+  body = "A map of how you are built to decide, drawn from your birth data. Start with the free chart.",
   kickerEdit = {},
   titleEdit = {},
   bodyEdit = {},
@@ -34,8 +34,13 @@ const {
       <p class="lead-text" {...bodyEdit}>{body}</p>
       <p class="sub-text" {...subtextEdit}>{subtext}</p>
       <div class="hero-actions">
-        <a class="hero-primary" href="#chart">Generate your chart <span aria-hidden="true">↗</span></a>
-        <a class="hero-secondary" href="#foundations">How Human Design works</a>
+        <a class="hero-primary" href="#chart">Get your free bodygraph</a>
+        <a class="hero-secondary" href="#readings">See reading options</a>
+      </div>
+      <div class="hero-proof" aria-label="Reading details">
+        <div><strong>Free</strong><span>bodygraph</span></div>
+        <div><strong>1 min</strong><span>to generate</span></div>
+        <div><strong>Recorded</strong><span>yours to keep</span></div>
       </div>
       <p class="side-note" {...sideNoteEdit}>{sideNote}</p>
     </div>
@@ -47,14 +52,14 @@ const {
 
 <style>
   .home-hero {
-    background: var(--color-cream);
+    background: #FFFFFF;
     color: var(--color-ink);
     border-bottom: 1px solid var(--color-subtle-border);
   }
 
   .hero-dateline {
-    margin: 0 0 30px;
-    color: var(--color-muted);
+    margin: 0 0 28px;
+    color: var(--color-accent);
     font-size: 11px;
     font-weight: 500;
     letter-spacing: .18em;
@@ -66,17 +71,16 @@ const {
     margin: 0 0 28px;
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(46px, 5vw, 68px);
-    line-height: 1.05;
-    letter-spacing: -.025em;
+    font-size: clamp(48px, 4.4vw, 60px);
+    line-height: 1.06;
+    letter-spacing: -.02em;
     text-wrap: pretty;
   }
 
   .hero-grid {
     max-width: 1180px;
-    min-height: calc(100svh - 72px);
     margin: 0 auto;
-    padding: clamp(64px, 9vw, 104px) 32px 84px;
+    padding: 92px 32px 84px;
     display: grid;
     grid-template-columns: minmax(0, 1.08fr) minmax(340px, .92fr);
     gap: clamp(48px, 6vw, 76px);
@@ -88,30 +92,29 @@ const {
   }
 
   .lead-text {
-    max-width: 43ch;
-    font-size: 18px;
+    max-width: 52ch;
+    font-size: 17.5px;
     line-height: 1.62;
-    margin: 0 0 16px;
+    color: var(--color-text-dark);
+    margin: 0 0 14px;
     text-wrap: pretty;
   }
 
   .sub-text {
-    max-width: 47ch;
-    font-size: 15px;
-    line-height: 1.72;
-    color: var(--color-text-dark);
+    max-width: 52ch;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--color-soft-blue);
     margin: 0;
     text-wrap: pretty;
   }
 
   .side-note {
-    max-width: 45ch;
-    padding-top: 18px;
-    border-top: 1px solid var(--color-subtle-border);
-    font-size: 12px;
+    max-width: 62ch;
+    font-size: 11px;
     line-height: 1.6;
     color: var(--color-muted);
-    margin: 34px 0 0;
+    margin: 18px 0 0;
     text-wrap: pretty;
   }
 
@@ -120,7 +123,7 @@ const {
     flex-wrap: wrap;
     align-items: center;
     gap: 18px;
-    margin-top: 30px;
+    margin-top: 32px;
   }
 
   .hero-primary,
@@ -128,29 +131,60 @@ const {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 48px;
-    font-size: 12px;
+    min-height: 50px;
+    font-size: 15px;
     font-weight: 500;
     text-decoration: none;
   }
 
   .hero-primary {
     gap: 12px;
-    padding: 0 19px;
-    background: var(--color-ink);
+    padding: 0 28px;
+    border-radius: 2px;
+    background: var(--color-accent);
     color: #FFFFFF;
-    border: 1px solid var(--color-ink);
+    border: 1px solid var(--color-accent);
     transition: background .2s ease, color .2s ease;
   }
 
   .hero-primary:hover {
-    background: var(--color-accent);
+    background: var(--color-ink);
+    border-color: var(--color-ink);
     color: #FFFFFF;
   }
 
   .hero-secondary {
-    padding: 0 2px;
-    border-bottom: 1px solid var(--color-ink);
+    padding: 0 26px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 2px;
+  }
+
+  .hero-secondary:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .hero-proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 34px;
+    margin-top: 52px;
+    padding-top: 30px;
+    border-top: 1px solid var(--color-subtle-border);
+  }
+
+  .hero-proof div { display: grid; gap: 4px; }
+  .hero-proof strong {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 400;
+  }
+  .hero-proof span {
+    color: var(--color-muted);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
   }
 
   .hero-generator {
@@ -190,7 +224,8 @@ const {
     .hero-title { font-size: clamp(42px, 13vw, 58px); }
     .lead-text { font-size: 17px; }
     .hero-actions { align-items: stretch; flex-direction: column; }
-    .hero-secondary { align-self: flex-start; min-height: 38px; }
+    .hero-secondary { align-self: stretch; min-height: 46px; }
+    .hero-proof { gap: 22px; margin-top: 38px; }
   }
 
   @media (prefers-reduced-motion: reduce) {

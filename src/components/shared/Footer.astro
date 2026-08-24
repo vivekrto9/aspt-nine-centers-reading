@@ -2,89 +2,88 @@
 interface Props {
   brandName?: string;
   brandEdit?: Record<string, string>;
-  noteEdit?: Record<string, string>;
+  homeHref?: string;
   plateHref?: string;
   readingsHref?: string;
   questionsHref?: string;
-  chartHref?: string;
 }
 
 const {
   brandName = "Nine Centres",
   brandEdit = {},
-  noteEdit = {},
+  homeHref = "#top",
   plateHref = "#foundations",
   readingsHref = "#readings",
   questionsHref = "#faq",
-  chartHref = "#chart",
 } = Astro.props;
 ---
 
 <footer class="hd-footer" data-hd-footer>
-  <div class="footer-top">
-    <div class="footer-intro">
-      <p class="footer-kicker">Nine centres · one operating manual</p>
-      <p class="footer-title" {...brandEdit}>{brandName}</p>
-    </div>
+  <div class="footer-inner">
+    <a href={homeHref} class="footer-brand" {...brandEdit}>
+      <span class="footer-mark" aria-hidden="true"></span>
+      <span>{brandName}</span>
+    </a>
     <nav class="footer-nav" aria-label="Footer Navigation">
       <a href={plateHref} class="footer-link">Foundations</a>
       <a href={readingsHref} class="footer-link">Readings</a>
       <a href={questionsHref} class="footer-link">FAQ</a>
-      <a href={chartHref} class="footer-link cta-accent">Generate chart ↗</a>
+      <a href="#" class="footer-link">Privacy</a>
+      <a href="#" class="footer-link">Contact</a>
     </nav>
-  </div>
-  <div class="footer-base">
-    <p {...noteEdit}>Your chart is information, not instruction.</p>
-    <p>&copy; 2026 &middot; {brandName.toLowerCase()}</p>
+    <p class="footer-copyright">&copy; 2026 &middot; Astropages template</p>
   </div>
 </footer>
 
 <style>
   .hd-footer {
     background: #17191A;
-    color: #FFFFFF;
-    padding: 64px max(24px, calc((100vw - 1180px) / 2)) 24px;
+    color: #8B8E86;
+    padding: 0;
     border-top: 1px solid #2A2C2D;
   }
 
-  .footer-top {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
+  .footer-inner {
+    max-width: 1180px;
+    min-height: 112px;
+    margin: 0 auto;
+    padding: 44px 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
-    gap: 48px;
-    padding-bottom: 56px;
+    gap: 24px;
   }
 
-  .footer-kicker {
-    margin: 0 0 16px;
-    color: #8B8E86;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-  }
-
-  .footer-title {
-    margin: 0;
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #E9E8E2;
     font-family: var(--font-display);
-    font-size: clamp(44px, 6vw, 82px);
+    font-size: 16px;
     font-weight: 400;
-    line-height: 1;
-    letter-spacing: -.03em;
+    text-decoration: none;
+  }
+
+  .footer-mark {
+    width: 9px;
+    height: 9px;
+    border: 1.5px solid #6E7169;
+    transform: rotate(45deg);
   }
 
   .footer-nav {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 24px;
+    justify-content: center;
+    gap: 26px;
   }
 
   .footer-link {
-    font-size: 12px;
-    font-weight: 500;
-    color: #B9BAB2;
+    font-size: 13.5px;
+    font-weight: 400;
+    color: #8B8E86;
     text-decoration: none;
     transition: color .2s ease;
   }
@@ -93,32 +92,19 @@ const {
     color: #FFFFFF;
   }
 
-  .footer-link.cta-accent {
-    color: #FFFFFF;
+  .footer-copyright {
+    margin: 0;
+    color: #6E7169;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: .08em;
   }
-
-  .footer-base {
-    display: flex;
-    justify-content: space-between;
-    gap: 24px;
-    padding-top: 20px;
-    border-top: 1px solid #2A2C2D;
-    color: #8B8E86;
-    font-size: 11px;
-  }
-
-  .footer-base p { margin: 0; }
 
   @media (max-width: 640px) {
     .hd-footer {
-      padding: 48px 20px 20px;
+      padding: 0;
     }
-    .footer-top {
-      grid-template-columns: 1fr;
-      align-items: start;
-      gap: 34px;
-    }
+    .footer-inner { align-items: flex-start; padding: 40px 20px; flex-direction: column; }
     .footer-nav { justify-content: flex-start; }
-    .footer-base { flex-direction: column; gap: 8px; }
   }
 </style>

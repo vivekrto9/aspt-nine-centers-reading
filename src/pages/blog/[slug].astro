@@ -53,7 +53,7 @@ const seoContent = {
       <BlogRelatedArticles articles={relatedArticles} />
     </main>
 
-    <Footer brandName="Nine Centres" plateHref={`${homeHref}#plate`} readingsHref={`${homeHref}#readings`} questionsHref={`${homeHref}#faq`} chartHref={localizePath("/human-design", locale)} />
+    <Footer brandName="Nine Centres" homeHref={homeHref} plateHref={`${homeHref}#foundations`} readingsHref={`${homeHref}#readings`} questionsHref={`${homeHref}#faq`} />
   </div>
 </BaseLayout>
 
@@ -62,16 +62,16 @@ const seoContent = {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: #16100D;
-    color: #F0E7DB;
+    background: #FFFFFF;
+    color: var(--color-ink);
   }
 
   .article-main-content {
     flex: 1;
-    max-width: 1240px;
+    max-width: 1180px;
     margin: 0 auto;
     width: 100%;
-    padding: 84px 48px 120px;
+    padding: 86px 32px 112px;
   }
 
   @media (max-width: 768px) {

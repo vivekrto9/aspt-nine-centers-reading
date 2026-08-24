@@ -7,7 +7,8 @@ const read = (path) => readFileSync(new URL(path, root), "utf8");
 
 test("Nine Centres Reading declares canonical typography pairs and color tokens", () => {
   const baseCss = read("src/styles/base.css");
-  assert.equal(baseCss.includes("--color-cobalt: #0B3D2E;"), true);
+  assert.equal(baseCss.includes("--color-cobalt: oklch(0.52 0.09 165);"), true);
+  assert.equal(baseCss.includes("--color-accent: oklch(0.52 0.09 165);"), true);
   assert.equal(baseCss.includes("--color-cream: #FBFBF9;"), true);
   assert.equal(baseCss.includes("--color-ink: #17191A;"), true);
   assert.equal(baseCss.includes("--font-display: 'Libre Caslon Text'"), true);
@@ -21,7 +22,6 @@ test("homepage sections do not regress to the Cobalt palette", () => {
   const sectionFiles = [
     "HomeHero",
     "BodygraphGeneratorSection",
-    "NineCentresSection",
     "FourConceptsSection",
     "FiveTypesSection",
     "ThreeReadingsSection",
@@ -43,11 +43,11 @@ test("homepage sections do not regress to the Cobalt palette", () => {
   }
 });
 
-test("Home page composes all 10 core sections in order", () => {
+test("Home page composes the reference homepage sections without a duplicate anatomy plate", () => {
   const indexAstro = read("src/pages/index.astro");
   assert.equal(indexAstro.includes("<HomeHero"), true);
   assert.equal(indexAstro.includes("<BodygraphGeneratorSection"), true);
-  assert.equal(indexAstro.includes("<NineCentresSection"), true);
+  assert.equal(indexAstro.includes("<NineCentresSection"), false);
   assert.equal(indexAstro.includes("<FourConceptsSection"), true);
   assert.equal(indexAstro.includes("<FiveTypesSection"), true);
   assert.equal(indexAstro.includes("<ThreeReadingsSection"), true);
@@ -59,6 +59,26 @@ test("Home page composes all 10 core sections in order", () => {
   assert.equal(indexAstro.includes("<Header"), true);
   assert.equal(indexAstro.includes("<Footer"), true);
   assert.equal(indexAstro.includes("<MasterclassCourseView"), false);
+});
+
+test("homepage chart form and footer follow the supplied reading reference", () => {
+  const generator = read("src/components/home/sections/BodygraphGeneratorSection.astro");
+  const homeCss = read("src/styles/almanac-home.css");
+  const footer = read("src/components/shared/Footer.astro");
+  assert.match(generator, /Free · takes a minute/);
+  assert.match(generator, /No reading required/);
+  assert.match(generator, /Do not know your birth time\? An estimate is fine\./);
+  assert.match(generator, /Your birth data is used to draw the chart and nothing else\./);
+  assert.match(generator, /formView\.hidden = true/);
+  assert.match(generator, /resultView\.hidden = false/);
+  assert.match(generator, /generatorSection\.scrollIntoView/);
+  assert.match(homeCss, /\[data-form-view\]\[hidden\],[\s\S]*\[data-result-view\]\[hidden\][\s\S]*display: none/);
+  assert.match(homeCss, /\[data-result-view\] \{[\s\S]*padding: 48px 46px 52px/);
+  assert.match(footer, /class="footer-inner"/);
+  assert.match(footer, />Privacy<\/a>/);
+  assert.match(footer, />Contact<\/a>/);
+  assert.match(footer, /Astropages template/);
+  assert.doesNotMatch(footer, /Nine centres · one operating manual|Generate chart ↗/);
 });
 
 test("Five Types section contains all five human design energy types", () => {
@@ -98,6 +118,16 @@ test("Bodygraph Canvas SVG geometry is present and rendered", () => {
   assert.equal(canvasAstro.includes("bg-silhouette"), true);
   assert.equal(canvasAstro.includes("bg-channels-active"), true);
   assert.equal(canvasAstro.includes("bg-center-shapes"), true);
+  assert.match(canvasAstro, /theme === "cobalt" \? ivoryColor : s\.fill/);
+});
+
+test("homepage hero uses the production bodygraph canvas with sample chart data", () => {
+  const heroPlate = read("src/components/home/sections/HeroBodygraphPlate.astro");
+  assert.match(heroPlate, /UpastroBodyGraphCanvas/);
+  assert.match(heroPlate, /chartData=\{sampleChartData\}/);
+  assert.match(heroPlate, /showActivationColumns=\{false\}/);
+  assert.match(heroPlate, /client:only="react"/);
+  assert.doesNotMatch(heroPlate, /import BodyGraphCanvas from/);
 });
 
 test("Articles section provides View All CTA and links to blog routes", () => {
@@ -121,4 +151,7 @@ test("Blog index and dynamic slug detail pages exist and render structured artic
   assert.equal(blogBody.includes("takeaways-box"), true);
   assert.equal(blogData.includes("open-centres-not-weaknesses"), true);
   assert.equal(blogData.includes("how-to-test-your-gut-yes"), true);
+  assert.doesNotMatch(`${blogIndex}\n${blogDetail}`, /#(?:16100D|241C18|D8F546|E2603D|F0E7DB)/i);
+  assert.match(blogIndex, /background: #FFFFFF/);
+  assert.match(blogDetail, /background: #FFFFFF/);
 });

@@ -1,6 +1,5 @@
 ---
 import UpastroBodyGraphCanvas from "../../components/bodygraph/UpastroBodyGraphCanvas.jsx";
-import BodyGraphCanvas from "../../components/bodygraph/BodyGraphCanvas.astro";
 import BodyGraphGuidePanel from "../../components/bodygraph/BodyGraphGuidePanel.astro";
 import ChartPropertiesDrawer from "../../components/bodygraph/ChartPropertiesDrawer.astro";
 import Footer from "../../components/shared/Footer.astro";
@@ -128,11 +127,7 @@ const displayBirthline = savedProfile
           </nav>
           <section class="hd-chart-workspace" aria-label="Human Design bodygraph and planetary activations">
             <div class="hd-chart-canvas">
-              <UpastroBodyGraphCanvas theme="light" chartData={chartView.chartData} interactive={false} client:only="react">
-                <div slot="fallback" class="hd-chart-fallback" aria-label="Loading interactive bodygraph">
-                  <BodyGraphCanvas theme="light" accentColor="#5C2B2E" cobaltColor="#17191A" ivoryColor="#FBFBF9" />
-                </div>
-              </UpastroBodyGraphCanvas>
+              <UpastroBodyGraphCanvas theme="light" chartData={chartView.chartData} interactive={false} />
               <footer>
                 <p>{chartView.definedCenters.length} defined centres · {chartView.activeGates.length} active gates · {chartView.channels.length} active channels</p>
               </footer>
@@ -154,10 +149,10 @@ const displayBirthline = savedProfile
   />
 
   <Footer
-    plateHref="#bodygraph"
+    homeHref={homeHref}
+    plateHref={`${homeHref}#foundations`}
     readingsHref={`${homeHref}#readings`}
     questionsHref={`${homeHref}#faq`}
-    chartHref={chartHref}
   />
 </BaseLayout>
 

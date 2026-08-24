@@ -6,7 +6,6 @@ import Footer from "../components/shared/Footer.astro";
 import HomeHero from "../components/home/sections/HomeHero.astro";
 import HeroBodygraphPlate from "../components/home/sections/HeroBodygraphPlate.astro";
 import BodygraphGeneratorSection from "../components/home/sections/BodygraphGeneratorSection.astro";
-import NineCentresSection from "../components/home/sections/NineCentresSection.astro";
 import FourConceptsSection from "../components/home/sections/FourConceptsSection.astro";
 import FiveTypesSection from "../components/home/sections/FiveTypesSection.astro";
 import ThreeReadingsSection from "../components/home/sections/ThreeReadingsSection.astro";
@@ -103,9 +102,6 @@ const seoContent = {
       <!-- 02. Five Types -->
       <FiveTypesSection eyebrow={content.types_eyebrow} title={content.types_title} hint={content.types_hint} eyebrowEdit={toDataset(builderEdit("types_eyebrow"))} titleEdit={toDataset(builderEdit("types_title"))} hintEdit={toDataset(builderEdit("types_hint"))} />
 
-      <!-- Bodygraph anatomy -->
-      <NineCentresSection eyebrow={content.nine_centres_eyebrow} title={content.nine_centres_title} eyebrowEdit={toDataset(builderEdit("nine_centres_eyebrow"))} titleEdit={toDataset(builderEdit("nine_centres_title"))} />
-
       <!-- 03. Reading options -->
       <ThreeReadingsSection eyebrow={content.readings_eyebrow} title={content.readings_title} note={content.readings_note} eyebrowEdit={toDataset(builderEdit("readings_eyebrow"))} titleEdit={toDataset(builderEdit("readings_title"))} noteEdit={toDataset(builderEdit("readings_note"))} />
 
@@ -144,7 +140,6 @@ const seoContent = {
     <Footer
       brandName={content.footer_brand_name || "Nine Centres"}
       brandEdit={toDataset(chromeEdit("footer_brand_name"))}
-      noteEdit={toDataset(builderEdit("footer_note"))}
     />
   </div>
 </BaseLayout>

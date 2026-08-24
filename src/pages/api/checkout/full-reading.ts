@@ -3,6 +3,7 @@ import { resolveSecretBinding } from "../../../server/aggregator/runtime-binding
 import { getRuntimeEnv, readJsonBody, requirePost } from "../../../server/generated-site/request.ts";
 import { errorResponse } from "../../../server/generated-site/responses.ts";
 import { attachStripeCheckoutSession, createHumanDesignOrder, failHumanDesignOrder, getPaidHumanDesignReadingAccess } from "../../../server/capabilities/vendor/astropages-capabilities/human-design-orders.ts";
+import { getHumanDesignReading } from "../../../server/capabilities/vendor/astropages-capabilities/human-design-api.ts";
 
 const feature = "nine-centres.checkout.full-reading";
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,6 +27,14 @@ export const POST: APIRoute = async (context) => {
   const env = await getRuntimeEnv(context);
   const readingId = typeof parsed.body.readingId === "string" ? parsed.body.readingId.trim() : "";
   if (readingId) {
+    const savedReading = await getHumanDesignReading({ env, readingId, kind: "chart" });
+    if (!savedReading) {
+      return Response.json({
+        ok: false,
+        requiresNewChart: true,
+        message: "This saved chart is no longer available. Generate a new chart before starting checkout.",
+      }, { status: 409, headers: { "cache-control": "private, no-store" } });
+    }
     const paidAccess = await getPaidHumanDesignReadingAccess({ env, readingId });
     if (paidAccess) {
       return Response.json({

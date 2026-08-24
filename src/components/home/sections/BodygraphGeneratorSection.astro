@@ -10,7 +10,7 @@ interface Props {
   descriptionEdit?: Record<string, string>;
 }
 
-const { embedded = false, resultHref = "/human-design", title = "Generate your bodygraph", description = "The chart plus a short summary of your type, authority and profile. Do not know your birth time? An estimate is fine.", titleEdit = {}, descriptionEdit = {} } = Astro.props;
+const { embedded = false, resultHref = "/human-design", title = "Generate your bodygraph", description = "The chart plus a short summary of your type, authority and profile. No reading required.", titleEdit = {}, descriptionEdit = {} } = Astro.props;
 ---
 
 <section id="chart" class:list={["generator-section", { "is-embedded": embedded }]} data-generator-section>
@@ -21,11 +21,11 @@ const { embedded = false, resultHref = "/human-design", title = "Generate your b
       <!-- FORM STATE -->
       <div id="chart-form-view" class="form-view generator-card-view" data-form-view>
         <div class="form-header">
-          <p class="tag-accent">No charge</p>
-          <p class="tag-muted">1 min</p>
+          <p class="tag-accent">Free · takes a minute</p>
         </div>
         <h2 class="card-title" {...titleEdit}>{title}</h2>
         <p class="card-desc" {...descriptionEdit}>{description}</p>
+        <p class="form-estimate-note">Do not know your birth time? An estimate is fine.</p>
 
         <form id="bodygraph-form" class="form-grid">
           <div class="field-full">
@@ -82,7 +82,7 @@ const { embedded = false, resultHref = "/human-design", title = "Generate your b
             Generate my free chart
           </button>
           <p class="form-disclaimer">
-            Birth data draws the chart. Nothing else.
+            Your birth data is used to draw the chart and nothing else.
           </p>
           <p class="form-status" data-form-status aria-live="polite" hidden></p>
         </form>
@@ -143,6 +143,7 @@ const { embedded = false, resultHref = "/human-design", title = "Generate your b
     const status = form?.querySelector("[data-form-status]");
     const formView = document.querySelector("[data-form-view]");
     const resultView = document.querySelector("[data-result-view]");
+    const generatorSection = form.closest("[data-generator-section]");
     const resultHeading = resultView?.querySelector("[data-result-heading]");
     const resultBirthline = resultView?.querySelector("[data-result-birthline]");
     const resultLink = resultView?.querySelector("[data-result-link]");
@@ -177,6 +178,7 @@ const { embedded = false, resultHref = "/human-design", title = "Generate your b
       submit.textContent = "Drawing your chart…";
       if (status instanceof HTMLElement) {
         status.hidden = false;
+        status.dataset.state = "loading";
         status.textContent = "Calculating your design and personality activations.";
       }
       try {
@@ -223,12 +225,19 @@ const { embedded = false, resultHref = "/human-design", title = "Generate your b
         }
         if (formView instanceof HTMLElement) formView.hidden = true;
         if (resultView instanceof HTMLElement) resultView.hidden = false;
+        if (generatorSection instanceof HTMLElement) {
+          window.requestAnimationFrame(() => {
+            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            generatorSection.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+          });
+        }
         window.astroPagesTrack?.("free_chart_generated", { source: "homepage", reading_id: slug, type });
       } catch (caught) {
         submit.disabled = false;
         submit.textContent = "Generate my free chart";
         if (status instanceof HTMLElement) {
           status.hidden = false;
+          status.dataset.state = "error";
           status.textContent = caught instanceof Error ? caught.message : "Your chart could not be generated. Please try again.";
         }
         window.astroPagesTrack?.("free_chart_failed", { source: "homepage" });
@@ -241,6 +250,7 @@ const { embedded = false, resultHref = "/human-design", title = "Generate your b
       submit.textContent = "Generate my free chart";
       if (status instanceof HTMLElement) {
         status.hidden = true;
+        delete status.dataset.state;
         status.textContent = "";
       }
       if (resultView instanceof HTMLElement) resultView.hidden = true;
@@ -349,6 +359,13 @@ const { embedded = false, resultHref = "/human-design", title = "Generate your b
     text-wrap: pretty;
   }
 
+  .form-estimate-note {
+    margin: -10px 0 30px;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
   .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -428,6 +445,10 @@ const { embedded = false, resultHref = "/human-design", title = "Generate your b
     color: var(--color-accent);
     font-weight: 700;
     font-size: 12px;
+  }
+
+  .form-status[data-state="error"] {
+    color: #c52e3d;
   }
 
   /* Result view styling */

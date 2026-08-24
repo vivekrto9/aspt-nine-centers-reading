@@ -29,7 +29,7 @@ const locale = getLocaleFromUrl(Astro.request.url);
 
 <style>
   .related-section {
-    border-top: 1px solid #D8D7D0;
+    border-top: 1px solid var(--color-subtle-border);
     padding-top: 64px;
   }
 
@@ -39,18 +39,19 @@ const locale = getLocaleFromUrl(Astro.request.url);
 
   .related-eyebrow {
     font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.24em;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    letter-spacing: .12em;
     text-transform: uppercase;
-    color: #5C2B2E;
+    color: var(--color-muted);
     margin: 0 0 8px;
   }
 
   .related-title {
     font-family: var(--font-display);
     font-size: 28px;
-    font-weight: 600;
-    letter-spacing: -0.04em;
+    font-weight: 400;
+    letter-spacing: -.015em;
     margin: 0;
   }
 
@@ -63,22 +64,22 @@ const locale = getLocaleFromUrl(Astro.request.url);
   .related-card {
     display: flex;
     flex-direction: column;
-    border: 1px solid #D8D7D0;
-    background: #FFFFFF;
+    border: 0;
+    background: transparent;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.18s ease, background 0.18s ease;
+    transition: transform .18s ease;
   }
 
   .related-card:hover {
-    border-color: #0B3D2E;
-    background: #241C18;
+    transform: translateY(-3px);
   }
 
   .related-thumb {
     aspect-ratio: 16 / 9;
-    background: #241C18;
-    border-bottom: 1px solid #D8D7D0;
+    background-color: #F4F3EF;
+    background-image: repeating-linear-gradient(135deg, #E8E7E1 0 1px, transparent 1px 9px);
+    border: 1px solid var(--color-subtle-border);
     padding: 14px;
     display: flex;
     align-items: flex-end;
@@ -86,20 +87,21 @@ const locale = getLocaleFromUrl(Astro.request.url);
 
   .related-tag {
     font-size: 9.5px;
-    font-weight: 700;
+    font-family: var(--font-mono);
+    font-weight: 400;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #0B3D2E;
+    color: var(--color-accent);
   }
 
   .related-card-title {
     font-family: var(--font-display);
     font-size: 17px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.25;
-    letter-spacing: -0.03em;
+    letter-spacing: -.015em;
     margin: 0;
-    padding: 20px;
+    padding: 18px 0 0;
   }
 
   @media (max-width: 768px) {

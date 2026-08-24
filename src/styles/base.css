@@ -1,9 +1,9 @@
 :root {
   color-scheme: light;
-  --color-cobalt: #0B3D2E;
+  --color-cobalt: oklch(0.52 0.09 165);
   --color-cream: #FBFBF9;
   --color-ink: #17191A;
-  --color-accent: #0B3D2E;
+  --color-accent: oklch(0.52 0.09 165);
   --color-muted: #8B8E86;
   --color-soft-blue: #6E7169;
   --color-subtle-border: #E8E7E1;
@@ -16,13 +16,14 @@
   --font-display: 'Libre Caslon Text', Georgia, serif;
   --font-editorial: 'Libre Caslon Text', Georgia, serif;
   --font-sans: 'Space Grotesk', Helvetica, Arial, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
 
   /* Bodygraph Canvas Custom Tokens */
   --hd-bg-primary: #FBFBF9;
   --hd-bg-secondary: #FFFFFF;
   --hd-text-primary: #17191A;
   --hd-text-secondary: #6E7169;
-  --hd-cta-primary: #0B3D2E;
+  --hd-cta-primary: oklch(0.52 0.09 165);
   --hd-design-pipe: #5C2B2E;
   --hd-personality-pipe: #17191A;
   --hd-pipe-bg: #DEDDD6;
@@ -37,7 +38,7 @@
   --hd-center-root: #3D403A;
   --hd-gate-active-bg: #17191A;
   --hd-gate-active-text: #FFFFFF;
-  --hd-focus-color: #0B3D2E;
+  --hd-focus-color: oklch(0.52 0.09 165);
   --hd-silhouette: #EDECE6;
 }
 
@@ -51,7 +52,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-cream);
+  background: #FFFFFF;
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
