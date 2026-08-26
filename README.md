@@ -6,6 +6,8 @@ It is a runnable AstroPages template rather than a library-only package. AstroPa
 
 ## Release Metadata
 
+Pushes to `develop` run the AstroPages preview deployment pipeline. Production releases use Deploy from a successful default-branch pipeline.
+
 Template source identifies an immutable technical commit, but never gates a release on a source-controlled template version. After a production workflow succeeds, use AstroPages Admin to verify that commit and select its semantic version, release notes, and changelog. Do not add `version`, `registryVersionId`, or a template registry-version lock to a derived template manifest.
 
 Included reusable core:
