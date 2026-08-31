@@ -225,7 +225,7 @@ test("local development applies D1 migrations before serving chart and payment r
   const packageJson = JSON.parse(read("package.json"));
   assert.equal(
     packageJson.scripts.predev,
-    "wrangler d1 migrations apply astropages-base-template-site --local",
+    "wrangler d1 migrations apply aspt-nine-centers-reading-site --local",
   );
 });
 
