@@ -15,6 +15,8 @@ import FaqSection from "../components/home/sections/FaqSection.astro";
 import ArticlesSection from "../components/home/sections/ArticlesSection.astro";
 import FinalCtaSection from "../components/home/sections/FinalCtaSection.astro";
 import { localizePath } from "../data/localization-contract.ts";
+import { getRuntimeEnv } from "../server/generated-site/request.ts";
+import { formatPaymentAmount, getPaymentQuote } from "../server/aggregator/payment-pricing.ts";
 import "../styles/almanac-home.css";
 
 import type { BuilderEditAttributes } from "../builder/builder.ts";
@@ -31,6 +33,11 @@ const {
   builderEdit,
   chromeEdit,
 } = await loadPublicPageContent(Astro, "home");
+let readingQuote = null;
+try {
+  const quote = await getPaymentQuote(await getRuntimeEnv(Astro), Astro.request);
+  readingQuote = { amount: formatPaymentAmount(quote.amountMinor, quote.currency) };
+} catch {}
 
 const toDataset = (
   attributes: BuilderEditAttributes,
@@ -104,7 +111,7 @@ const seoContent = {
       <FiveTypesSection eyebrow={content.types_eyebrow} title={content.types_title} hint={content.types_hint} eyebrowEdit={toDataset(builderEdit("types_eyebrow"))} titleEdit={toDataset(builderEdit("types_title"))} hintEdit={toDataset(builderEdit("types_hint"))} />
 
       <!-- 03. Reading options -->
-      <ThreeReadingsSection eyebrow={content.readings_eyebrow} title={content.readings_title} note={content.readings_note} eyebrowEdit={toDataset(builderEdit("readings_eyebrow"))} titleEdit={toDataset(builderEdit("readings_title"))} noteEdit={toDataset(builderEdit("readings_note"))} />
+      <ThreeReadingsSection eyebrow={content.readings_eyebrow} title={content.readings_title} note={content.readings_note} quote={readingQuote} eyebrowEdit={toDataset(builderEdit("readings_eyebrow"))} titleEdit={toDataset(builderEdit("readings_title"))} noteEdit={toDataset(builderEdit("readings_note"))} />
 
       <!-- 04. Process -->
       <HowItRunsSection eyebrow={content.how_eyebrow} title={content.how_title} eyebrowEdit={toDataset(builderEdit("how_eyebrow"))} titleEdit={toDataset(builderEdit("how_title"))} />
