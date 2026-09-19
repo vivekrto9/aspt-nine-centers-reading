@@ -36,7 +36,12 @@ const {
 let readingQuote = null;
 try {
   const quote = await getPaymentQuote(await getRuntimeEnv(Astro), Astro.request);
-  readingQuote = { amount: formatPaymentAmount(quote.amountMinor, quote.currency) };
+  readingQuote = {
+    amount: formatPaymentAmount(quote.amountMinor, quote.currency),
+    amountMinor: quote.amountMinor,
+    currency: quote.currency,
+    provider: quote.provider,
+  };
 } catch {}
 
 const toDataset = (
