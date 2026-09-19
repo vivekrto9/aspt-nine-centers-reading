@@ -13,4 +13,5 @@ export const AP_TABLES = {
   leads: "ap_leads",
   humanDesignReadings: "ap_human_design_readings",
   humanDesignOrders: "ap_human_design_orders",
+  humanDesignOffers: "ap_human_design_offers",
 } as const;
