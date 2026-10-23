@@ -1,3 +1,4 @@
+import { previewArtifactBuildIntegration } from "./scripts/preview-artifact-build.mjs";
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import { d1, r2 } from "@emdash-cms/cloudflare";
@@ -57,6 +58,7 @@ export default defineConfig({
 		responsiveStyles: true,
 	},
 	integrations: [
+        ...(process.env.ASTROPAGES_PREVIEW_ARTIFACT_BUILD === "1" ? [previewArtifactBuildIntegration()] : []),
 		react(),
 		emdash({
 			database: d1({ binding: "DB", session: "disabled" }),
@@ -94,7 +96,7 @@ export default defineConfig({
 			dedupe: ["react", "react-dom"],
 		},
 		server: {
-			allowedHosts: ["7e44-223-181-57-33.ngrok-free.app"],
+			allowedHosts: ["tiffany-prominent-scenario-christine.trycloudflare.com"],
 		},
 		optimizeDeps: {
 			include: ["tz-lookup"],

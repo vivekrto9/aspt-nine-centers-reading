@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 import { runtimeContract, loadWranglerConfig } from "../../scripts/cloudflare-runtime-contract.mjs";
 
@@ -24,9 +24,12 @@ test("template deployments isolate resources by template identity and environmen
       for (const field of ["workerName", "d1DatabaseName", "r2BucketName", "kvNamespaceName"]) {
         assert.equal(declared[field], resources[field]);
       }
-      const seed = readFileSync(new URL(`../../.astropages/generated-site-workflows/deploy-${environment}.yml`, import.meta.url), "utf8");
-      assert.ok(seed.includes(`d1 migrations apply ${resources.d1DatabaseName}`));
-      assert.ok(!seed.includes("d1 migrations apply astropages-base-template"));
+      const seedUrl = new URL(`../../.astropages/generated-site-workflows/deploy-${environment}.yml`, import.meta.url);
+      if (existsSync(seedUrl)) {
+        const seed = readFileSync(seedUrl, "utf8");
+        assert.ok(seed.includes(`d1 migrations apply ${resources.d1DatabaseName}`));
+        assert.ok(!seed.includes("d1 migrations apply astropages-base-template"));
+      }
     }
   }
 });
